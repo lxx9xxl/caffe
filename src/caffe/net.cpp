@@ -41,6 +41,22 @@ Net<Dtype>::Net(const string& param_file, Phase phase,
 }
 
 template <typename Dtype>
+Net<Dtype>::Net(bool isString, const string& modelstr, Phase phase,
+                const int level, const vector<string>* stages) {
+  NetParameter param;
+  ReadNetParamsFromStringOrDie(modelstr, &param);
+  // Set phase, stages and level
+  param.mutable_state()->set_phase(phase);
+  if (stages != NULL) {
+    for (int i = 0; i < stages->size(); i++) {
+      param.mutable_state()->add_stage((*stages)[i]);
+    }
+  }
+  param.mutable_state()->set_level(level);
+  Init(param);
+}
+
+template <typename Dtype>
 void Net<Dtype>::Init(const NetParameter& in_param) {
   // Set phase from the state.
   phase_ = in_param.state().phase();

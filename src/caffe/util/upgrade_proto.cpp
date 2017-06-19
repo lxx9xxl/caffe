@@ -90,6 +90,13 @@ void ReadNetParamsFromTextFileOrDie(const string& param_file,
   UpgradeNetAsNeeded(param_file, param);
 }
 
+void ReadNetParamsFromStringOrDie(const string& input,
+                                  NetParameter* param) {
+  CHECK(ReadProtoFromString(input, param))
+      << "Failed to parse NetParameter file: " << "ReadFromString";
+  UpgradeNetAsNeeded("ReadFromStringInput", param);
+}
+
 void ReadNetParamsFromBinaryFileOrDie(const string& param_file,
                                       NetParameter* param) {
   CHECK(ReadProtoFromBinaryFile(param_file, param))

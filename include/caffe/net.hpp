@@ -24,8 +24,14 @@ template <typename Dtype>
 class Net {
  public:
   explicit Net(const NetParameter& param);
+    
   explicit Net(const string& param_file, Phase phase,
       const int level = 0, const vector<string>* stages = NULL);
+
+  // support read from model string 
+  explicit Net(bool isString, const string& param_file, Phase phase,
+      const int level = 0, const vector<string>* stages = NULL);
+    
   virtual ~Net() {}
 
   /// @brief Initialize a network with a NetParameter.
